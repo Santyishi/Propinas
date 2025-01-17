@@ -1,18 +1,39 @@
 <div class="propinas-container">
-  <h2>Gestión de Propinas</h2>
+  <h2>Distribución de Propinas</h2>
   <div class="input-section">
-    <input type="number" [(ngModel)]="totalPropinas" placeholder="Total Propinas" (input)="calcular()">
-    <input type="number" [(ngModel)]="diasTotales" placeholder="Días Totales" (input)="calcular()">
+    <label for="totalPropinas">Total de Propinas:</label>
+    <input
+      id="totalPropinas"
+      type="number"
+      [(ngModel)]="totalPropinas"
+      placeholder="Ingresa el total"
+    />
+
+    <label for="diasTotales">Días Totales:</label>
+    <input
+      id="diasTotales"
+      type="number"
+      [(ngModel)]="diasTotales"
+      placeholder="Ingresa los días trabajados"
+    />
   </div>
 
-  <button (click)="calcular()">Calcular Propina</button>
+  <div>
+    <button (click)="calcular()">Calcular</button>
+    <button (click)="resetAll()">Reiniciar Todo</button>
+  </div>
 
   <div class="resultados">
-    <div class="trabajador" *ngFor="let trabajador of trabajadores">
-      <strong>{{trabajador.nombre}}</strong>
-      <p>Días Trabajados: {{ diasTotales - trabajador.faltas }}</p>
-      <input type="number" [(ngModel)]="trabajador.faltas" min="0" max="{{ diasTotales }}" (input)="calcular()">
-      <p>Propina a Cobrar: <strong>{{trabajador.propinaACobrar | currency}}</strong></p>
+    <div *ngFor="let trabajador of trabajadores" class="trabajador">
+      <strong>{{ trabajador.nombre }}</strong>
+      <p>Faltas:</p>
+      <input
+        type="number"
+        [(ngModel)]="trabajador.faltas"
+        min="0"
+      />
+      <p>Propina a Cobrar:</p>
+      <p>{{ trabajador.propinaACobrar | currency }}</p>
     </div>
   </div>
 </div>

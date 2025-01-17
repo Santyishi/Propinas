@@ -13,7 +13,7 @@
 h2 {
   text-align: center;
   font-size: 2.2rem;
-  color: #4CAF50;  /* Verde más opaco */
+  color: #4CAF50; /* Verde más opaco */
   margin-bottom: 20px;
 }
 
@@ -52,6 +52,7 @@ button {
   font-size: 1.1rem;
   transition: background-color 0.3s ease, transform 0.2s ease;
   margin-top: 20px;
+  margin-left:10px;
 }
 
 button:hover {
@@ -111,5 +112,5 @@ button:hover {
   display: block;
   font-size: 1.2rem;
   margin-bottom: 10px;
-  color: #4CAF50;  /* Verde más opaco para el nombre */
+  color: #4CAF50; /* Verde más opaco para el nombre */
 }

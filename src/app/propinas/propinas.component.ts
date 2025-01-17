@@ -8,14 +8,42 @@ import { PropinasService } from '../propinas.service';
   styleUrls: ['./propinas.component.css']
 })
 export class PropinasComponent implements OnInit {
-  totalPropinas: number = 0;  // Total de propinas ingresadas, inicia en 0
-  diasTotales: number = 0;  // Días totales, inicia en 0
+  totalPropinas: number = 0;  // Total de propinas ingresadas
+  diasTotales: number = 0;  // Días totales trabajados
   trabajadores: any[] = [];  // Lista de trabajadores
 
-  constructor(private propinasService: PropinasService) { }
+  constructor(private propinasService: PropinasService) {}
 
   ngOnInit(): void {
-    // Lista inicial de trabajadores con 0 faltas y propina a cobrar en 0
+    // Cargar datos guardados en localStorage si existen
+    const savedData = localStorage.getItem('propinasData');
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      this.totalPropinas = parsedData.totalPropinas;
+      this.diasTotales = parsedData.diasTotales;
+      this.trabajadores = parsedData.trabajadores;
+    } else {
+      // Inicializar con trabajadores por defecto si no hay datos guardados
+      this.resetData();
+    }
+  }
+
+  calcular(): void {
+    if (this.totalPropinas > 0 && this.diasTotales > 0) {
+      this.trabajadores = this.propinasService.calcularPropinas(
+        this.totalPropinas,
+        this.diasTotales,
+        this.trabajadores
+      );
+      // Guardar los datos en localStorage después de calcular
+      this.saveData();
+    }
+  }
+
+  resetData(): void {
+    // Inicializar los valores por defecto
+    this.totalPropinas = 0;
+    this.diasTotales = 0;
     this.trabajadores = [
       { nombre: 'Agustina Rocchetti', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Katherine Vidal', faltas: 0, propinaACobrar: 0 },
@@ -33,14 +61,22 @@ export class PropinasComponent implements OnInit {
       { nombre: 'Santiago Olivera', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Abril Rodriguez', faltas: 0, propinaACobrar: 0 }
     ];
+    this.saveData(); // Guardar el estado inicial en localStorage
   }
 
-  calcular(): void {
-    // Llamamos al servicio para calcular las propinas solo cuando los valores estén definidos
-    if (this.totalPropinas > 0 && this.diasTotales > 0) {
-      this.trabajadores = this.propinasService.calcularPropinas(this.totalPropinas, this.diasTotales, this.trabajadores);
-    } else {
-      alert('Por favor, ingrese valores válidos para el total de propinas y los días totales.');
-    }
+  resetAll(): void {
+    // Limpiar los datos de localStorage y resetear todo
+    localStorage.removeItem('propinasData');
+    this.resetData();
+  }
+
+  private saveData(): void {
+    // Guardar los datos actuales en localStorage
+    const data = {
+      totalPropinas: this.totalPropinas,
+      diasTotales: this.diasTotales,
+      trabajadores: this.trabajadores
+    };
+    localStorage.setItem('propinasData', JSON.stringify(data));
   }
 }
