@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PropinasService } from '../propinas.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-propinas',
@@ -8,14 +9,13 @@ import { PropinasService } from '../propinas.service';
   styleUrls: ['./propinas.component.css']
 })
 export class PropinasComponent implements OnInit {
-  totalPropinas: number = 0;  // Total de propinas ingresadas
-  diasTotales: number = 0;  // Días totales trabajados
-  trabajadores: any[] = [];  // Lista de trabajadores
+  totalPropinas: number = 0;
+  diasTotales: number = 0;
+  trabajadores: any[] = [];
 
   constructor(private propinasService: PropinasService) {}
 
   ngOnInit(): void {
-    // Cargar datos guardados en localStorage si existen
     const savedData = localStorage.getItem('propinasData');
     if (savedData) {
       const parsedData = JSON.parse(savedData);
@@ -23,7 +23,6 @@ export class PropinasComponent implements OnInit {
       this.diasTotales = parsedData.diasTotales;
       this.trabajadores = parsedData.trabajadores;
     } else {
-      // Inicializar con trabajadores por defecto si no hay datos guardados
       this.resetData();
     }
   }
@@ -35,13 +34,11 @@ export class PropinasComponent implements OnInit {
         this.diasTotales,
         this.trabajadores
       );
-      // Guardar los datos en localStorage después de calcular
       this.saveData();
     }
   }
 
   resetData(): void {
-    // Inicializar los valores por defecto
     this.totalPropinas = 0;
     this.diasTotales = 0;
     this.trabajadores = [
@@ -61,17 +58,15 @@ export class PropinasComponent implements OnInit {
       { nombre: 'Santiago Olivera', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Abril Rodriguez', faltas: 0, propinaACobrar: 0 }
     ];
-    this.saveData(); // Guardar el estado inicial en localStorage
+    this.saveData();
   }
 
   resetAll(): void {
-    // Limpiar los datos de localStorage y resetear todo
     localStorage.removeItem('propinasData');
     this.resetData();
   }
 
   private saveData(): void {
-    // Guardar los datos actuales en localStorage
     const data = {
       totalPropinas: this.totalPropinas,
       diasTotales: this.diasTotales,
@@ -79,4 +74,45 @@ export class PropinasComponent implements OnInit {
     };
     localStorage.setItem('propinasData', JSON.stringify(data));
   }
+
+  descargarLista(): void {
+    const trabajadoresOrdenados = [...this.trabajadores].sort((a, b) =>
+      a.nombre.localeCompare(b.nombre)
+    );
+  
+    const ws = XLSX.utils.aoa_to_sheet([
+      ['Nombre del Partner', 'Días Trabajados', 'Faltas', 'Total a Cobrar', 'Firma:'],
+      ...trabajadoresOrdenados.map((trabajador) => [
+        trabajador.nombre,
+        this.diasTotales - trabajador.faltas,
+        trabajador.faltas,
+        trabajador.propinaACobrar.toFixed(1),
+        ''  // Celda vacía para la firma
+      ])
+    ]);
+  
+    const wscols = [
+      {wch: 30},
+      {wch: 15},
+      {wch: 10},
+      {wch: 15},
+      {wch: 20}
+    ];
+  
+    
+    for (const cell in ws) {
+      if (ws.hasOwnProperty(cell) && ws[cell].v) {
+        ws[cell].s = { alignment: { horizontal: 'left' } };  
+      }
+    }
+  
+    ws['!cols'] = wscols;
+  
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Propinas');
+    
+    XLSX.writeFile(wb, 'lista_propinas.xlsx');
+  }
+  
+  
 }
