@@ -44,11 +44,9 @@ export class PropinasComponent implements OnInit {
     this.trabajadores = [
       { nombre: 'Agustina Rocchetti', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Katherine Vidal', faltas: 0, propinaACobrar: 0 },
-      { nombre: 'Ignacio Rodriguez', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Ana Guzman', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Alan Bermudez', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Alejandro Collazo', faltas: 0, propinaACobrar: 0 },
-      { nombre: 'Ivan Pastorino', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Matias Ojeda', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Melani Silva', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Lorena Romero', faltas: 0, propinaACobrar: 0 },
