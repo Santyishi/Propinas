@@ -19,29 +19,26 @@ export class PropinasComponent implements OnInit {
     const savedData = localStorage.getItem('propinasData');
     if (savedData) {
       const parsedData = JSON.parse(savedData);
-      this.totalPropinas = parsedData.totalPropinas;
-      this.diasTotales = parsedData.diasTotales;
-      this.trabajadores = parsedData.trabajadores;
+
+      if (!this.listaActualizada(parsedData.trabajadores)) {
+        this.resetData(); // Forzar actualización si hay cambios en el código
+      } else {
+        this.totalPropinas = parsedData.totalPropinas;
+        this.diasTotales = parsedData.diasTotales;
+        this.trabajadores = parsedData.trabajadores;
+      }
     } else {
       this.resetData();
     }
   }
 
-  calcular(): void {
-    if (this.totalPropinas > 0 && this.diasTotales > 0) {
-      this.trabajadores = this.propinasService.calcularPropinas(
-        this.totalPropinas,
-        this.diasTotales,
-        this.trabajadores
-      );
-      this.saveData();
-    }
+  private listaActualizada(trabajadoresGuardados: any[]): boolean {
+    const trabajadoresActuales = this.obtenerListaDefault();
+    return JSON.stringify(trabajadoresGuardados) === JSON.stringify(trabajadoresActuales);
   }
 
-  resetData(): void {
-    this.totalPropinas = 0;
-    this.diasTotales = 0;
-    this.trabajadores = [
+  private obtenerListaDefault(): any[] {
+    return [
       { nombre: 'Agustina Rocchetti', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Katherine Vidal', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Ana Guzman', faltas: 0, propinaACobrar: 0 },
@@ -58,6 +55,23 @@ export class PropinasComponent implements OnInit {
       { nombre: 'Ignacio Muniz', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Alexia Duarte', faltas: 0, propinaACobrar: 0 }
     ];
+  }
+
+  calcular(): void {
+    if (this.totalPropinas > 0 && this.diasTotales > 0) {
+      this.trabajadores = this.propinasService.calcularPropinas(
+        this.totalPropinas,
+        this.diasTotales,
+        this.trabajadores
+      );
+      this.saveData();
+    }
+  }
+
+  resetData(): void {
+    this.totalPropinas = 0;
+    this.diasTotales = 0;
+    this.trabajadores = this.obtenerListaDefault();
     this.saveData();
   }
 
@@ -87,7 +101,7 @@ export class PropinasComponent implements OnInit {
         this.diasTotales - trabajador.faltas,
         trabajador.faltas,
         trabajador.propinaACobrar.toFixed(1),
-        ''  // Celda vacía para la firma
+        '' 
       ])
     ]);
   
@@ -99,13 +113,6 @@ export class PropinasComponent implements OnInit {
       {wch: 20}
     ];
   
-    
-    for (const cell in ws) {
-      if (ws.hasOwnProperty(cell) && ws[cell].v) {
-        ws[cell].s = { alignment: { horizontal: 'left' } };  
-      }
-    }
-  
     ws['!cols'] = wscols;
   
     const wb = XLSX.utils.book_new();
@@ -113,6 +120,4 @@ export class PropinasComponent implements OnInit {
     
     XLSX.writeFile(wb, 'lista_propinas.xlsx');
   }
-  
-  
 }
