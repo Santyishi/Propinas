@@ -53,7 +53,10 @@ export class PropinasComponent implements OnInit {
       { nombre: 'Santiago Olivera', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Abril Rodriguez', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Ignacio Muniz', faltas: 0, propinaACobrar: 0 },
-      { nombre: 'Alexia Duarte', faltas: 0, propinaACobrar: 0 }
+      { nombre: 'Alexia Duarte', faltas: 0, propinaACobrar: 0 },
+      { nombre: 'Jazmin Vera', faltas: 0, propinaACobrar: 0 },
+      { nombre: 'Estefania Delacrox', faltas: 0, propinaACobrar: 0 },
+
     ];
   }
 
