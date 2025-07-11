@@ -51,7 +51,6 @@ export class PropinasComponent implements OnInit {
       { nombre: 'Emiliano Roldan', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Santiago Olivera', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Abril Rodriguez', faltas: 0, propinaACobrar: 0 },
-      { nombre: 'Ignacio Muniz', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Alexia Duarte', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Lucia Da Silva', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Estefania Delacrox', faltas: 0, propinaACobrar: 0 },
@@ -67,7 +66,7 @@ export class PropinasComponent implements OnInit {
         this.trabajadores
       );
       this.saveData();
-    }a
+    }
   }
 
   resetData(): void {
