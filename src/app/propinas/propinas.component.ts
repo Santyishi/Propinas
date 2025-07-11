@@ -45,7 +45,6 @@ export class PropinasComponent implements OnInit {
       { nombre: 'Alan Bermudez', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Ivan Pastorino', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Matias Ojeda', faltas: 0, propinaACobrar: 0 },
-      { nombre: 'Melani Silva', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Lorena Romero', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Santiago Vaquett', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Gonzalo Cortazzo', faltas: 0, propinaACobrar: 0 },
@@ -54,7 +53,7 @@ export class PropinasComponent implements OnInit {
       { nombre: 'Abril Rodriguez', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Ignacio Muniz', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Alexia Duarte', faltas: 0, propinaACobrar: 0 },
-      { nombre: 'Jazmin Vera', faltas: 0, propinaACobrar: 0 },
+      { nombre: 'Lucia Da Silva', faltas: 0, propinaACobrar: 0 },
       { nombre: 'Estefania Delacrox', faltas: 0, propinaACobrar: 0 },
 
     ];
@@ -68,7 +67,7 @@ export class PropinasComponent implements OnInit {
         this.trabajadores
       );
       this.saveData();
-    }
+    }a
   }
 
   resetData(): void {
